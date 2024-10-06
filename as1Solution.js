@@ -62,28 +62,32 @@ function resetCounters() {
 }
 
 //** Moving to question 2 */
-
+//? default items and prices
 let itemsAndPrices = {
   "Cherry Tomatoes": 5,
   "Savoy Cabbage": 4,
   "Green Beans": 6,
   "Yellow Peppers": 3,
   "Salad Mix": 4,
-  Grapes: 3,
-  Oranges: 5,
+  "Grapes": 3,
+  "Oranges": 5,
 };
 
-let addBtn = document.getElementById("addbtn");
 
+//? adding produce functionality
+let addBtn = document.getElementById("addbtn");
 addBtn.addEventListener("click", () => {
   let textBox = document.getElementById("item");
   let selectionList = document.getElementById("produceList");
   let produceItem = textBox.value.trim();
-
+  
+  //?checking whether something has given or not 
   if (produceItem === "") {
     alert("Please enter a valid produce item.");
     return;
   }
+
+  //? checking for duplicate values
   for (let i = 0; i < selectionList.options.length; i++) {
     if (selectionList.options[i].text === produceItem) {
       alert("This item is already in the list. Please enter a new item.");
@@ -91,7 +95,7 @@ addBtn.addEventListener("click", () => {
     }
   }
 
-  //creating a new element
+  //?creating a new element and appending it in list
   let newOptionItem = document.createElement("option");
   newOptionItem.className = "option";
   newOptionItem.text = produceItem;
@@ -100,10 +104,12 @@ addBtn.addEventListener("click", () => {
   textBox.value = "";
 });
 
+//? removing produce from list
 let removeBtn = document.getElementById("removebtn");
 removeBtn.addEventListener("click", () => {
   let select = document.getElementById("produceList");
 
+  //? check to ensure whether something is selected or list is not empty
   if (select.childElementCount !== 0 && select.selectedIndex !== -1) {
     const selectedOption = select.options[select.selectedIndex];
     if (selectedOption) {
@@ -114,6 +120,7 @@ removeBtn.addEventListener("click", () => {
   }
 });
 
+//? functionality to enter the weight of produce
 let inputProduceWeight = document.getElementById("produceWeight");
 inputProduceWeight.addEventListener("blur", () => {
   let select = document.getElementById("produceList");
@@ -130,18 +137,17 @@ inputProduceWeight.addEventListener("blur", () => {
   }
 });
 
+
+//?calculating total Amount 
 document.getElementById("totalAmount").addEventListener("focus", function () {
   const produceList = document.getElementById("produceList");
   let totalAmount = 0;
-
   for (let i = 0; i < produceList.options.length; i++) {
     const produceItem = produceList.options[i].text;
     const weight = parseFloat(produceList.options[i].value);
     const pricePerPound = itemsAndPrices[produceItem] || 5;
-
     totalAmount += weight * pricePerPound;
   }
-
   document.getElementById("totalAmount").value = totalAmount.toFixed(2);
 });
 
